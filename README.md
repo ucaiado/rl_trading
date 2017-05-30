@@ -2,7 +2,7 @@ Building Trading Models Using Reinforcement Learning
 ==================
 
 
-I propose the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics is made, but it requires creating a simulator wherewith the learning agent can interact to gain experience. This repository contains the framework created and it is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here </a>(it is in Portuguese). The folder structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and the code in Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project.
+I propose the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics is made, but it requires creating a simulator wherewith the learning agent can interact to gain experience. **This repository contains the framework created** and it is related to my dissertation to the Quantitative Finance Mastership Program, from [FGV](http://portal.fgv.br/en/news/fgv-among-worlds-10-best-think-tanks) University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here </a>(it is in Portuguese). The folder structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and the code in Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project.
 
 
 ### Install
@@ -20,10 +20,12 @@ This project requires **Python 2.7** and the following Python libraries installe
 In a terminal or command window, navigate to the top-level project directory `rl_trading/` (that contains this README) and run the following command:
 
 ```shell
-$ python -m market_sim.agent [-h] [-t] [-d] [-s] <OPTION>
+$ python -m market_sim.agent [-h] [-t] [-d] [-s] [-m] <OPTION>
 ```
 
-Where *OPTION* is the kind of simulation to be run. The flag *[-t]* is the number of trials to perform using the same file, *[-d]* is the date of the file to use in the simulation and *[-s]* is the number of sessions on each trial. Use the flag *[-h]* to get information about what kind of simulation is currently available. The simulation will generate log files to be analyzed later on. Be aware that any of those simulations options might take several minutes to complete.
+Where *OPTION* is the kind of agent to be run. The flag *[-t]* is the number of trials to perform using the same file, *[-d]* is the date of the file to use in the simulation, *[-m]* is the month of the date and *[-s]* is the number of sessions on each trial. Use the flag *[-h]* to get information about what kind of agent is currently available, as well as other flags to use. The simulation will generate log files to be analyzed later on. Be aware that any of those simulations options might take several minutes to complete.
+
+
 
 
 ### Data
