@@ -45,6 +45,8 @@ class RewardFunc(RewardWrapper):
                                                            l_main_keys])),
                              'num': dict(zip(l_main_keys, [0. for x in
                                                            l_main_keys]))}
+        # reset any other variable here
+        pass
 
     def set_func(self, s_type):
         '''

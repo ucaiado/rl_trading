@@ -1,28 +1,7 @@
-Scripts
-*******
+# Scripts
 
+Implement functions to clean order book data from BVMF. More informations in my dissertation. Run at the terminal to see the flags available:
 
-bla bla bla
-
-.. contents:: **Contents of this document**
-    :depth: 2
-
-Bla
-===
-
-bla
-
-Bla
----
-
-bla
-
-Bla
----
-
-bla
-
-bla
-===
-
-bla bla
+```shell
+    $ python -m preprocess -h
+```

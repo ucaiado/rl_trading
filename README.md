@@ -2,8 +2,7 @@ Building Trading Models Using Reinforcement Learning
 ==================
 
 
-
-I propose the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics is made, but it requires creating a simulator wherewith the learning agent can interact to gain experience. This repository contains the framework created and it is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here </a>(it is in Portuguese). The code structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and (especially) Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project.
+I propose the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics is made, but it requires creating a simulator wherewith the learning agent can interact to gain experience. This repository contains the framework created and it is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here </a>(it is in Portuguese). The folder structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and the code in Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project.
 
 
 ### Install
@@ -15,8 +14,6 @@ This project requires **Python 2.7** and the following Python libraries installe
 - [Pandas](http://pandas.pydata.org)
 - [Seaborn](https://web.stanford.edu/~mwaskom/software/seaborn/)
 - [BeautifulSoup](https://pypi.python.org/pypi/beautifulsoup4)
-<!-- - [Sphinx](http://www.sphinx-doc.org/en/1.5.1/) -->
-<!-- - [Six](https://pypi.python.org/pypi/six) -->
 
 
 ### Run
@@ -33,29 +30,20 @@ Where *OPTION* is the kind of simulation to be run. The flag *[-t]* is the numbe
 An example of the datasets used in this project can be found [here](https://www.dropbox.com/s/xo5ul1h3hmtfw1k/201702.zip?dl=0). Unzip it and include in the folder `data/preprocessed`.
 
 
-<!-- ### Build Documentation -->
-<!-- The last version of the documentation generated is compressed at `docs/build.zip`. After unzip the file, it can be accessed [here](docs/build/html/index.html). To create a new HTML version, run the following command in the `docs/` folder of the top level directory of this project:
- -->
-<!-- ```shell
-$ make html
-``` -->
-
-<!-- After that, access locally the AdaptativeTrading_Model's docs [here](docs/_build/html/index.html). Disable `DEBUG` flag before building the files. -->
-
 ### Reference
 1. BUSONIU, L. et al. *Reinforcement learning and dynamic programming using function approximators*. CRC press, 2010.
 2. CHAN, N. T.; SHELTON, C. *An electronic market-maker*. 2001.
+3. GOULD, M. D. et al. *Limit order books*. Quantitative Finance, 2013.
 3. SUTTON, R. S.; BARTO, A. G. *Reinforcement Learning: An Introduction*, draft, in progress. 2st. MIT Press, 2017.
 4. SPOONER, T. L. *Reinforcement Learning for High-Frequency Market Making in Limit Order Book Markets*. Master Thesis — the University of Liverpool, 2016.
 
 <details><summary>More references</summary>
 
-5. BELLMAN, R. *The theory of dynamic programming*. 1954.
-4. CUMMING, J.; ALRAJEH, D.; DICKENS, L. *An Investigation into the Use of Reinforcement Learning Techniques within the Algorithmic Trading Domain.* Master Thesis, 2015.
+6. BELLMAN, R. *The theory of dynamic programming*. 1954.
+7. CUMMING, J.; ALRAJEH, D.; DICKENS, L. *An Investigation into the Use of Reinforcement Learning Techniques within the Algorithmic Trading Domain.* Master Thesis, 2015.
 5. DU, X.; ZHAI, J.; LV, K. *Algorithm trading using q-learning and recurrent reinforcement learning*. Citeseer, v. 1, p. 1, n.d.
 6. FERRUCCI, D. et al. *Building watson: An overview of the deepqa project*. AI magazine, v. 31, n. 3, p. 59–79, 2010.
 7. FLETCHER, T. *Machine learning for financial market prediction*. Thesis — UCL (University College London), 2012.
-8. GOULD, M. D. et al. *Limit order books*. Quantitative Finance, Taylor & Francis, v. 13, n. 11, p. 1709–1742, 2013.
 9. HALL, T.; KUMAR, N. *Why Machine Learning Models Often Fail to Learn: QuickTake Q&A*. 2017. [Online].
 10. KAELBLING, L. P.; LITTMAN, M. L.; MOORE, A. W. *Reinforcement learning: a survey*. Journal of Artificial Intelligence Research, v. 4, p. 237–285, 1996.
 11. KEARNS, M.; NEVMYVAKA, Y. *Machine learning for market microstructure and high frequency trading*. 2013.
