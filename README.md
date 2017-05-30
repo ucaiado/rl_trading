@@ -1,7 +1,7 @@
-Adaptative Trading Model in DI Future
+Building Trading Models Using Reinforcement Learning
 ==================
 
-I presented an adaptive learning model to trade Brazilian DI1 contracts under the reinforcement learning framework. This area of machine learning consists in training an agent by reward and punishment without needing to specify the expected action. The agent learns from its experience and develops a strategy that maximizes its profits. This repository is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="" target="_blank">here</a>(it is in Portuguese). The code structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and (especially) Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project. The TEX file was produced with the help of [Overleaf](https://www.overleaf.com).
+I presented an adaptive learning model to trade Brazilian DI1 contracts under the reinforcement learning framework. This area of machine learning consists in training an agent by reward and punishment without needing to specify the expected action. The agent learns from its experience and develops a strategy that maximizes its profits. This repository is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here</a>(it is in Portuguese). The code structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and (especially) Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project. The TEX file was produced with the help of [Overleaf](https://www.overleaf.com).
 
 
 ### Install
@@ -18,7 +18,7 @@ This project requires **Python 2.7** and the following Python libraries installe
 
 
 ### Run
-In a terminal or command window, navigate to the top-level project directory `AdaptativeTrading_Model/` (that contains this README) and run the following command:
+In a terminal or command window, navigate to the top-level project directory `Rl_TradingModel/` (that contains this README) and run the following command:
 
 ```shell
 $ python -m market_sim.agent [-h] [-t] [-d] [-s] <OPTION>
@@ -28,7 +28,7 @@ Where *OPTION* is the kind of simulation to be run. The flag *[-t]* is the numbe
 
 
 ### Data
-An example of the datasets used in this project can be found [here](https://www.dropbox.com/sh/ha8jba4zwmq3xqt/AAABtexT-pVqDKDrVUyCcFv9a?dl=0).
+An example of the datasets used in this project can be found [here](https://www.dropbox.com/s/xo5ul1h3hmtfw1k/201702.zip?dl=0). Unzip it and include in the folder `data/preprocessed`.
 
 
 <!-- ### Build Documentation -->

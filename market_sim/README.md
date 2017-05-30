@@ -75,14 +75,14 @@ Note that `Run._get_from_argv()` is a method to recover arguments passed through
     $ python -m market_sim.agent -h
 ```
 
+## What you should know about `agent.py`
+
+To use this script, follow the instructions in the main [README](../README.md). If log is enabled in [config](../market_gym/README.md) file, the agent will generate two files in `../log/train_test/` folder: one beginning its name with "results" and another beginning with"sim". The first hold the summary of the simulation. In the second you will find logs from every time step the agent has performed. If you are running the `qlearning` agent, it will save the final value function in `../log/qtables/` folder.
+
 ## What you should know about `_agent/risk_model.py`
 
-bla
+TODO
 
 ## What you should know about `_agent/agent_frwk.py`
 
-bla
-
-## What you should know about `agent.py`
-
-bla
+TODO
