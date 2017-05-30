@@ -107,11 +107,38 @@ class Run(object):
     '''
     '''
 
-    l_available_data = ['20170201', '20170202', '20170203', '20170206',
-                        '20170207', '20170208', '20170209', '20170210',
-                        '20170213', '20170214', '20170215', '20170216',
-                        '20170217', '20170220', '20170221', '20170222',
-                        '20170223', '20170224']
+    d_available_data = {201702: ['20170201', '20170202', '20170203',
+                                 '20170206', '20170207', '20170208',
+                                 '20170209', '20170210', '20170213',
+                                 '20170214', '20170215', '20170216',
+                                 '20170217', '20170220', '20170221',
+                                 '20170222', '20170223', '20170224'],
+                        201703: ['20170301', '20170302', '20170303',
+                                 '20170306', '20170307', '20170308',
+                                 '20170309', '20170310', '20170313',
+                                 '20170314', '20170315', '20170316',
+                                 '20170320', '20170321', '20170322',
+                                 '20170323', '20170324', '20170327',
+                                 '20170328', '20170330', '20170331'],
+                        201701: ['20170102', '20170103', '20170104',
+                                 '20170105', '20170106', '20170109',
+                                 '20170110', '20170111', '20170112',
+                                 '20170113', '20170116', '20170117',
+                                 '20170118', '20170119', '20170120',
+                                 '20170123', '20170124', '20170126',
+                                 '20170127', '20170131'],
+                        201612: ['20161201', '20161207', '20161208',
+                                 '20161209', '20161212', '20161213',
+                                 '20161214', '20161216', '20161219',
+                                 '20161220', '20161222', '20161223',
+                                 '20161226', '20161227', '20161228',
+                                 '20161229'],
+                        201611: ['20161101', '20161103', '20161104',
+                                 '20161107', '20161108', '20161110',
+                                 '20161116', '20161117', '20161118',
+                                 '20161121', '20161122', '20161123',
+                                 '20161124', '20161128', '20161129',
+                                 '20161130']}
 
     def __init__(self):
         '''
@@ -136,8 +163,7 @@ class Run(object):
     def set_experiments_options(self):
         '''
         '''
-        d_experiments = {'_test_random': self._test_random,
-                         '_qlearning': self._qlearning,
+        d_experiments = {'_qlearning': self._qlearning,
                          '_domino_q': self._domino_q,
                          '_random': self._random,
                          '_domino_rand': self._domino_rand}
@@ -180,6 +206,14 @@ class Run(object):
         if not l_opt:
             l_opt = ['DI1F21', 'DI1F19', 'DI1F23']
         self.l_opt = l_opt
+
+        # check the month of the data to use
+        i_month = self._get_from_argv('i_month')
+        if not i_month:
+            i_month = 201702
+        if self.s_date:
+            i_month = int(self.s_date[:6])
+
         # set up the environment and agent to run the simulation
         s_main_instr = self._get_from_argv('s_main_instr')
         if not s_main_instr:
@@ -187,7 +221,8 @@ class Run(object):
             if s_main_instr not in l_opt:
                 s_err = 'select an instrument as s_main_instr'
                 raise InvalidOptionException(s_err)
-        e = self.set_environment(n_trials, s_main_instr, n_sessions=i_sess)
+        e = self.set_environment(n_trials, s_main_instr, i_month,
+                                 n_sessions=i_sess)
         a = self.set_agent(s_option, e)
 
         #######################
@@ -243,7 +278,7 @@ class Run(object):
                                         'last_reward': l_rwd[-1]}))
         return a
 
-    def set_environment(self, n_trials, s_main_instr, n_sessions=1):
+    def set_environment(self, n_trials, s_main_instr, i_month, n_sessions=1):
         '''
         Create the environment to be used in simulation
 
@@ -251,9 +286,10 @@ class Run(object):
         :param l_instrument: list. list of instrument to be simulated.
         :param NextStopTime: NextStopTime object. the hour all books is in sync
         :param s_main_instr: string. The main instrument traded
+        :param i_month: integer. Month of the data used
         :param n_sessions*: integer. number of files to iterate
         '''
-
+        i_m = i_month
         l_opt = self.l_opt
         # set up the stop time object
         l_h = [9, 10, 11, 12, 13, 14, 15]
@@ -281,7 +317,7 @@ class Run(object):
             l_pu = [l_pu]
             l_price_adj = [l_price_adj]
         else:
-            l_data = self.l_available_data
+            l_data = self.d_available_data[i_m]
             if self.s_date:
                 b_include = False
                 l_aux = []
@@ -300,7 +336,7 @@ class Run(object):
             l_pu = []
             l_price_adj = []
             func_du = di_utilities.calulateDI1expirationDays
-            for s_date in self.l_available_data[:n_sessions+1]:
+            for s_date in self.d_available_data[i_m][:n_sessions+1]:
                 s_aux = '{}/{}/{}'.format(s_date[-2:], s_date[-4:-2],
                                           s_date[:4])
                 l_du_aux = []
@@ -351,12 +387,6 @@ class Run(object):
         if s_variable in self.argv:
             return self.argv[s_variable]
         return False
-
-    def _test_random(self, e, f_aux):
-        '''
-        '''
-        a = e.create_agent(BasicAgent, f_min_time=2.)
-        return a
 
     def _qlearning(self, e, f_aux, s_valfunc=None, i_version=None):
         '''
@@ -614,6 +644,9 @@ if __name__ == '__main__':
                         help=s_help)
     parser.add_argument('-i', '--instr', default=None, type=str, metavar='',
                         help='Intrument to trade. Default is DI1F21')
+    s_help = 'month of the data to use when iterating on multiple trials'
+    parser.add_argument('-m', '--month', default=None, type=int, metavar='',
+                        help=s_help)
     # recover arguments
     args = parser.parse_args()
     b_use_valfunc = args.valfunc
@@ -623,6 +656,7 @@ if __name__ == '__main__':
     i_sess = args.sessions
     i_version = args.version
     s_main_instr = args.instr
+    i_month = args.month
 
     # check the instruments to use
     if s_main_instr:
@@ -656,4 +690,5 @@ if __name__ == '__main__':
     obj_to_run.run(args.agent, i_trials=i_trials, s_date=s_date, i_sess=i_sess,
                    i_version=i_version, b_kplrn=b_kplrn, s_valfunc=s_valfunc,
                    b_keep_pos=False, s_main_instr=s_main_instr, f_gain=f_gain,
-                   f_loss=f_loss, l_instruments=l_opt, s_hedging_on=s_hedge)
+                   f_loss=f_loss, l_instruments=l_opt, s_hedging_on=s_hedge,
+                   i_month=i_month)
