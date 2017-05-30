@@ -1,7 +1,9 @@
 Building Trading Models Using Reinforcement Learning
 ==================
 
-I presented an adaptive learning model to trade Brazilian DI1 contracts under the reinforcement learning framework. This area of machine learning consists in training an agent by reward and punishment without needing to specify the expected action. The agent learns from its experience and develops a strategy that maximizes its profits. This repository is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here</a>(it is in Portuguese). The code structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and (especially) Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project. The TEX file was produced with the help of [Overleaf](https://www.overleaf.com).
+
+
+I propose the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics is made, but it requires creating a simulator wherewith the learning agent can interact to gain experience. This repository contains the framework created and it is related to my dissertation to the [Quantitative Finance ](http://eesp.fgv.br/en/ensino/mestrado-profissional/economia/area-financas-quantitativas/presentation) Mastership Program, from FGV University. You can check my report <a href="https://www.dropbox.com/s/ynyf8oynn304zkf/hft_trademodl_RL.pdf?dl=0" target="_blank">here </a>(it is in Portuguese). The code structure is heavily inspired by OpenAi's [Gym](https://github.com/openai/gym) and (especially) Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project.
 
 
 ### Install
