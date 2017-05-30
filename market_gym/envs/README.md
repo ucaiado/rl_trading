@@ -45,6 +45,8 @@ If you want to implement new reward functions, include the alias for the functio
             return reward
 ```
 
+Regarding `Simulator`, one interesting method is `print_when_paused(self)`. If you hit Ctrl + C while running `market_sim/agent.py` the script, it will pause the simulation and print out some information about the current state of the environment and the agent. It will ask you if should continue or quit the episode. If you choose to quit, it will follow to the next episode. To stop the simulation, you should hit ctrl+C twice.
+
 Finally, the following are the `Environment` methods you should know:
 
 - reset(self): Reset the environment’s state. Prepare to start a new episode.
