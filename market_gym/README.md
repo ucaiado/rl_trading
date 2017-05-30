@@ -6,7 +6,7 @@ For the purpose of this dissertation, the environment is a limit order book (LOB
 
 ## What you should know about `config.py`
 
-This file includes the configurations of the environment created, as the hour that the agent starts to trade, when the market close if should print debug messages or not, the frequency that should print those messages, and so on. By default, the flag `DEBUG` flag is enabled, but there are other three flags to control the quantity of text printed. So, by default, the agent will write just the last line of the log generated.
+This file includes the configurations of the environment created, as the hour that the agent starts to trade, when the market closes, if it should print debug messages or not, the frequency that should print those messages, and so on. By default, the flag `DEBUG` flag is enabled, but there are other three flags to control the quantity of text printed. So, by default, the agent will write just the last line of the log generated.
 
 ## What you should know about `core.py`
 
@@ -14,4 +14,4 @@ This file includes the implementations of the main classes used in this library,
 
 ## What you should know about the folders here
 
-The folder [Envs](envs/README.md) includes the final implementation of the environment, the reward functions and the simulator used in this dissertation. The folder [lob](lob/README.md) include all files related to the order book reconstruction. The folder [scripts](scripts/README.md) performs some help functions to clean the Bvmf files. Finally, the folder [utils](utils/README.md) includes several functions and libraries used by other components.
+The folder [envs](envs/README.md) includes the final implementation of the environment, the reward functions and the simulator used in this dissertation. The folder [lob](lob/README.md) include all files related to the order book reconstruction. The folder [scripts](scripts/README.md) performs some help functions to clean the Bvmf files. Finally, the folder [utils](utils/README.md) includes several functions and libraries used by other components.
