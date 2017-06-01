@@ -9,7 +9,7 @@ Implement several functions and libraries used by other components, like:
 
 ## Examples related to `di_utilities.py`
 
-Navigate to the top-level project directory `rl_trading/` and access ipython. Then
+Navigate to the top-level project directory `rl_trading/` and access ipython console and type
 
 ```python
     from market_gym.utils import di_utilities
@@ -21,7 +21,7 @@ Navigate to the top-level project directory `rl_trading/` and access ipython. Th
 It should return:
 
 ```shell
-DI1N18 (270.0, datetime.date(2018, 7, 1), datetime.date(2017, 6, 1))
-DI1N19 (519.0, datetime.date(2019, 7, 1), datetime.date(2017, 6, 1))
-DI1F20 (649.0, datetime.date(2020, 1, 1), datetime.date(2017, 6, 1))
+    DI1N18 (270.0, datetime.date(2018, 7, 1), datetime.date(2017, 6, 1))
+    DI1N19 (519.0, datetime.date(2019, 7, 1), datetime.date(2017, 6, 1))
+    DI1F20 (649.0, datetime.date(2020, 1, 1), datetime.date(2017, 6, 1))
 ```
