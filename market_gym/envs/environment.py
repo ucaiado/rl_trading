@@ -228,10 +228,10 @@ class Environment(Env):
             # calculate the MDD
             f_max = 0.
             l_aux = []
-            for f_pnl in na_pnl:
-                if f_pnl > f_max:
-                    f_max = f_pnl
-                l_aux.append(f_max-f_pnl)
+            for f_pnl_aux in na_pnl:
+                if f_pnl_aux > f_max:
+                    f_max = f_pnl_aux
+                l_aux.append(f_max-f_pnl_aux)
             f_mdd = float('{:0.2f}'.format(max(l_aux)))
             f_first = float('{:0.2f}'.format(na_pnl[0]))
             f_q3 = float('{:0.2f}'.format(np.percentile(na_pnl, 75)))
