@@ -12,7 +12,7 @@ Created on 07/05/2016
 from bintrees import FastRBTree
 import numpy as np
 import pandas as pd
-import parser_data
+from market_gym.lob import parser_data
 import zipfile
 
 

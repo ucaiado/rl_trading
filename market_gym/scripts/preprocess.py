@@ -18,7 +18,7 @@ import pandas as pd
 import time
 import zipfile
 
-from market_gym.lob import translator, matching_engine, book, paarser_data
+from market_gym.lob import translator, matching_engine, book, parser_data
 import book_cleaner as book_cleaner
 
 '''
@@ -44,7 +44,7 @@ End help functions
 '''
 
 
-def process_files(s_date, l_instruments, last_check=True):
+def process_files(s_date, l_instruments, last_check=True, s_filetype='BMF'):
     '''
     It is a ugly function to clean files fom BvmfFTP. Should be refactor
 
@@ -52,8 +52,17 @@ def process_files(s_date, l_instruments, last_check=True):
     :param l_instruments: list. Instruments to extract data
     '''
     sys.path.append('../../')
-    s_fname_bid = 'data/original/OFER_CPA_BMF_{}.zip'.format(s_date)
-    s_fname_ask = 'data/original/OFER_VDA_BMF_{}.zip'.format(s_date)
+    if s_filetype == 'BMF':
+        s_fname_bid = 'data/original/OFER_CPA_BMF_{}.zip'.format(s_date)
+        s_fname_ask = 'data/original/OFER_VDA_BMF_{}.zip'.format(s_date)
+    elif s_filetype == 'VISTA':
+        s_fname_bid = 'data/original/OFER_CPA_{}.zip'.format(s_date)
+        s_fname_ask = 'data/original/OFER_VDA_{}.zip'.format(s_date)
+    elif s_filetype == 'OPCOES':
+        s_fname_bid = 'data/original/OFER_CPA_OPCOES_{}.zip'.format(s_date)
+        s_fname_ask = 'data/original/OFER_VDA_OPCOES_{}.zip'.format(s_date)
+    else:
+        raise NotImplemented('file type {} is not valid'.format(s_filetype))
 
     # create the folder to hold the data
     s_ddir = 'data/temp/{}'.format(s_date)
@@ -348,6 +357,10 @@ if __name__ == '__main__':
     s_help = 'If it is a additional cleaning of the file'
     parser.add_argument('-sr', '--secrun', action='store_false',
                         help=s_help)
+    s_help = 'type of the file to be processed. Just used if it is the first'
+    s_help += ' run'
+    parser.add_argument('-ft', '--filetype', default=None, type=str,
+                        help=s_help)
     # s_help = 'If should not check for crossing prices'
     # parser.add_argument('-nc', '--nocheck', action='store_false',
     #                     help=s_help)
@@ -355,15 +368,25 @@ if __name__ == '__main__':
     args = parser.parse_args()
     s_date = args.date
     b_old = args.secrun
+    s_ftype = args.filetype
+    if not s_ftype:
+        s_ftype = 'BMF'
+    if s_ftype == 'BMF':
+        l_instruments = ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19', 'DI1F20',
+                         'DI1N20', 'DI1F21', 'DI1F23', 'DI1F25']
+    elif s_ftype == 'VISTA':
+        l_instruments = ['PETR4', 'VALE5']
+    elif s_ftype == 'OPCOES':
+        l_instruments = ['PETRQ34', 'PETRE34', 'PETRE10', 'PETRE18', 'PETRE17',
+                         'PETRE46', 'PETRE16', 'PETRQ15', 'PETRE15', 'PETRE45',
+                         'PETRE44', 'PETRE43', 'PETRQ43', 'PETRE47', 'PETRQ13',
+                         'PETRE13', 'PETRE12', 'PETRE63']
     # b_lcheck = args.nocheck
     # run the script
     if b_old:
-        process_files(s_date, ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19',
-                               'DI1F20', 'DI1N20', 'DI1F21', 'DI1F23',
-                               'DI1F25'], last_check=False)
+        process_files(s_date, l_instruments, last_check=False,
+                      s_filetype=s_ftype)
     else:
         renamefiles(s_date)
-        cleaning_files(s_date,  ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19',
-                                 'DI1F20', 'DI1N20', 'DI1F21', 'DI1F23',
-                                 'DI1F25'], s_type='new', last_check=False)
+        cleaning_files(s_date,  l_instruments, s_type='new', last_check=False)
         renamefiles(s_date)
