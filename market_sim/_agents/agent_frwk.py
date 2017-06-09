@@ -20,7 +20,7 @@ import pickle
 import pprint
 
 from market_gym import Agent
-from market_gym.envs import Environment, Simulator
+from market_gym.envs import Simulator
 from market_gym.lob import matching_engine, translator
 from market_gym.config import DEBUG, VERBOSE, PRINT_ALL, PRINT_5MIN, root
 import risk_model

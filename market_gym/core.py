@@ -54,7 +54,7 @@ class Env(object):
                      'crossed_prices']
 
     def __init__(self, l_fname, l_instrument, NextStopTime, s_main_intrument,
-                 l_du, l_pu, l_price_adj, i_idx=None, s_log_fname=None):
+                 i_idx=None, s_log_fname=None):
         '''
         Initialize an Env object
 
@@ -67,11 +67,6 @@ class Env(object):
         :param l_price_adj: list. settlement rates in l_du order
         :param i_idx*: integer. The index of the start file to be read
         '''
-        f_err = 'The lentgh of l_du and l_instrument shoould be the same'
-        assert len(l_du[0]) == len(l_instrument), f_err
-        self.l_du = l_du
-        self.l_pu = l_pu
-        self.l_price_adj = l_price_adj
         self.s_main_intrument = s_main_intrument
         self.l_instrument = l_instrument
         self.l_hedge = [x for x in l_instrument if x not in s_main_intrument]
@@ -457,36 +452,8 @@ class Env(object):
         :param agent. Agent object. the agent that will perform the action
         :param sense: dictionary. The inputs from environment to the agent
         '''
-        state = self.agent_states[agent]
         f_pnl = 0.
-        l_pu = [None for x in self.l_instrument]
-        if b_isclose:
-            l_pu = self.l_pu[self.order_matching.idx]
-        l_du = self.l_du[self.order_matching.idx]
-        for s_instr, f_du, f_pu in zip(self.l_instrument, l_du, l_pu):
-            f_pu_bid = 0.
-            if state[s_instr]['qBid'] != 0:
-                f_pu_bid = state[s_instr]['Bid'] / state[s_instr]['qBid']
-                f_pu_bid = 10**5 * (1+f_pu_bid/100.)**(-f_du/252.)
-            f_pu_ask = 0.
-            if state[s_instr]['qAsk'] != 0:
-                f_pu_ask = state[s_instr]['Ask'] / state[s_instr]['qAsk']
-                f_pu_ask = 10**5 * (1+f_pu_ask/100.)**(-f_du/252.)
-            f_pnl += f_pu_bid * state[s_instr]['qBid']
-            f_pnl -= f_pu_ask * state[s_instr]['qAsk']
-            f_qty = state[s_instr]['qAsk'] + state[s_instr]['qBid']
-            f_pu_mid = 0
-            if f_pu:
-                f_pu_mid = f_pu
-            elif sense['midPrice'][s_instr] != 0:
-                f_pu_mid = sense['midPrice'][s_instr]
-                f_pu_mid = 10**5 * (1+f_pu_mid/100.)**(-f_du/252.)
-            f_pnl += -state[s_instr]['Position'] * f_pu_mid
-            # include costs
-            f_pnl -= (f_qty * 0.80)
 
-        # substitute the last pnl by the current value
-        state['Pnl'] = f_pnl
         return f_pnl
 
     def log_trial(self):
@@ -761,6 +728,14 @@ class Agent(object):
         :param state: dictionary. The current state of the agent
         :param action: string. the action selected at this time
         :param reward: integer. the rewards received due to the action
+        '''
+        pass
+
+    def log_step(self, **kwargs):
+        '''
+        Log the current action/update from agent to a file or just to terminal
+
+        :param kwargs*: Inputs to be used in the log string.
         '''
         pass
 

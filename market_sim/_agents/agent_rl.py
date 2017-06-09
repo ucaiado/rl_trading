@@ -19,7 +19,7 @@ import pprint
 import math
 
 from market_gym import Agent
-from market_gym.envs import Environment, Simulator
+from market_gym.envs import Simulator
 from market_gym.lob import matching_engine, translator
 from market_gym.config import PRINT_ALL, PRINT_5MIN, DEBUG, root, s_log_file
 from market_gym.config import STOP_MKT_TIME

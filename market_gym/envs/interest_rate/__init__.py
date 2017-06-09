@@ -8,6 +8,4 @@ such as string, from unintentionally hiding valid modules that occur later
 
 Created on 08/19/2016
 """
-from .registration import make
-from .reward_funcs import RewardFunc
-from .simulator import Simulator
+from market_gym.envs.interest_rate.environment import YieldCrvEnv

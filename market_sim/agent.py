@@ -23,7 +23,7 @@ import pickle
 import pprint
 
 from market_gym import Agent
-from market_gym.envs import Environment, Simulator
+from market_gym.envs import make, Simulator
 from market_gym.lob import matching_engine, translator
 import market_gym.utils.di_utilities as di_utilities
 import market_gym.config
@@ -354,13 +354,14 @@ class Run(object):
                 l_pu.append(l_pu_aux)
                 l_price_adj.append(l_price_aux)
         # set up the environment
-        e = Environment(l_fname=l_files,
-                        l_instrument=l_opt,
-                        NextStopTime=NextStopTime,
-                        s_main_intrument=s_main_instr,
-                        l_du=l_du,
-                        l_pu=l_pu,
-                        l_price_adj=l_price_adj)
+        obj_env = make('YieldCurve')
+        e = obj_env(l_fname=l_files,
+                    l_instrument=l_opt,
+                    NextStopTime=NextStopTime,
+                    s_main_intrument=s_main_instr,
+                    l_du=l_du,
+                    l_pu=l_pu,
+                    l_price_adj=l_price_adj)
         return e
 
     def set_agent(self, s_option, e):
