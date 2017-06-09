@@ -246,33 +246,11 @@ class Env(object):
         np.random.seed(seed=None)
 
         # Initialize agent(s)
-        l_price_adj = self.l_price_adj[self.order_matching.idx]
         for agent in self.agent_states.iterkeys():
             self.agent_states[agent] = self._reset_agent_state(agent)
 
-            d_pos = {}
-            # if self.primary_agent == agent:
-            l_opt = self.l_instrument
-            for s_instr, f_price_adj in zip(l_opt, l_price_adj):
-                self.agent_states[agent][s_instr] = {}
-                self.agent_states[agent][s_instr]['Position'] = 0.
-                # calculate the last position
-                f_pos = agent.position[s_instr]['qBid']
-                f_pos -= agent.position[s_instr]['qAsk']
-                if s_instr in agent.d_initial_pos:
-                    f_pos += agent.d_initial_pos[s_instr]['Q']
-                # zero variable in env
-                for s_key in ['qBid', 'Bid', 'Ask', 'qAsk']:
-                    self.agent_states[agent][s_instr][s_key] = 0.
-                # set up carry position to the next day, if it is the case
-                if self.primary_agent == agent:
-                    if carry_pos and f_pos != 0:
-                        # set up d_pos variable properly
-                        if s_instr not in d_pos:
-                            d_pos[s_instr] = {}
-                        d_pos[s_instr]['Q'] = f_pos
-                        d_pos[s_instr]['P'] = f_price_adj
             # carry position
+            d_pos = self._carry_position(agent, testing, carry_pos)
             if len(d_pos) > 0:
                 s_add = ' '
                 for s_key in d_pos:
@@ -435,6 +413,16 @@ class Env(object):
             l_msg = [l_msg]
         if len(l_msg) > 0:
             self.order_matching.update(l_msg)
+
+    def _carry_position(self, agent, testing, carry_pos):
+        '''
+        Return a dictionary with the positions to carry to the next episode
+
+        :param agent: agent object.
+        :param testing: boolean.
+        :param carry_pos: boolean.
+        '''
+        return {}
 
     def _reset_agent_state(self, agent):
         '''

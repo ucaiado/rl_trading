@@ -106,8 +106,9 @@ class Simulator(object):
         :param f_tolerance*: float. Minimum epsilon necessary to begin testing
         :param b_testing*: boolean. should use the value function already fit
         '''
-        if not b_testing and self.env.primary_agent.learning:
-            root.info('Simulator.run(): Starting training session !')
+        if self.env.primary_agent:
+            if not b_testing and self.env.primary_agent.learning:
+                root.info('Simulator.run(): Starting training session !')
         for trial in xrange(n_trials):
             if self.env.primary_agent:
                 if self.env.primary_agent.learning:
@@ -161,8 +162,9 @@ class Simulator(object):
                 # log the end of the trial
                 self.env.log_trial()
         # save the last Q-table
-        if not self.env.primary_agent.b_print_always:
-            save_q_table(self.env, trial+1)
+        if self.env.primary_agent:
+            if not self.env.primary_agent.b_print_always:
+                save_q_table(self.env, trial+1)
         # save log info
         # save_log_info(self.env, trial+1)
 

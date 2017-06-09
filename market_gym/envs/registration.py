@@ -8,14 +8,16 @@ Implement a simulator to mimic a dynamic order book environment
 Created on 10/24/2016
 """
 
-from market_gym.envs.interest_rate.environment import YieldCrvEnv
+from market_gym.envs.interest_rate import YieldCrvEnv
+from market_gym.envs.stockn_option import StcknOptEnv
 
 
 '''
 Begin help functions
 '''
 
-IMPLEMENTED_ENVS = {'YieldCurve': YieldCrvEnv}
+IMPLEMENTED_ENVS = {'YieldCurve': YieldCrvEnv,
+                    'StockAndOption': StcknOptEnv}
 
 
 class NotFoundEnvException(Exception):

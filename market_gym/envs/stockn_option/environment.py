@@ -62,13 +62,13 @@ End help functions
 '''
 
 
-class YieldCrvEnv(Env):
+class StcknOptEnv(Env):
     '''
-    Yield curve Environment within which all agents operate.
+    Stock and option Environment within which all agents operate.
     '''
 
     def __init__(self, l_fname, l_instrument, NextStopTime, s_main_intrument,
-                 l_du, l_pu, l_price_adj, i_idx=None, s_log_fname=None):
+                 i_idx=None, s_log_fname=None):
         '''
         Initialize an YieldCrvEnv object
 
@@ -81,65 +81,17 @@ class YieldCrvEnv(Env):
         :param l_price_adj: list. settlement rates in l_du order
         :param i_idx*: integer. The index of the start file to be read
         '''
-        super(YieldCrvEnv, self).__init__(l_fname, l_instrument, NextStopTime,
+        super(StcknOptEnv, self).__init__(l_fname, l_instrument, NextStopTime,
                                           s_main_intrument, i_idx, s_log_fname)
         # reward function to be used
-        f_err = 'The lentgh of l_du and l_instrument shoould be the same'
-        assert len(l_du[0]) == len(l_instrument), f_err
-        self.l_du = l_du
-        self.l_pu = l_pu
-        self.l_price_adj = l_price_adj
+        # f_err = 'The lentgh of l_du and l_instrument shoould be the same'
+        # assert len(l_du[0]) == len(l_instrument), f_err
+        # self.l_du = l_du
+        # self.l_pu = l_pu
+        # self.l_price_adj = l_price_adj
         self.reward_fun = RewardFunc()
         self.reward_fun.set_func('pnl')
         self.s_rwd_fun = 'pnl'
-        # set the IQR values
-        self.set_iqr_of_size()  # NOTE: it should be improved (16/02/17)
-
-    def set_iqr_of_size(self, d_iqr=None):
-        '''
-        Set the value for IQRs related to the quantities on the books of each
-        instrument
-
-        :param d_iqr: dictionary. The IQR pased as float of each instrument
-        '''
-        self.d_iqr = d_iqr
-        if isinstance(d_iqr, type(None)):
-            # self.d_iqr = {'DI1F19': 835., 'DI1F21': 320., 'DI1F23': 1455.}
-            self.d_iqr = {'DI1F25': 283.75, 'DI1F20': 800., 'DI1F21': 995.,
-                          'DI1F23': 445., 'DI1F19': 1570., 'DI1F18': 1145.,
-                          'DI1N19': 400., 'DI1N18': 415., 'DI1N20': 420.}
-
-    def _carry_position(self, agent, testing, carry_pos):
-        '''
-        Return a dictionary with the positions to carry to the next episode
-
-        :param agent: agent object.
-        :param testing: boolean.
-        :param carry_pos: boolean.
-        '''
-        d_pos = {}
-        l_price_adj = self.l_price_adj[self.order_matching.idx]
-        l_opt = self.l_instrument
-        for s_instr, f_price_adj in zip(l_opt, l_price_adj):
-            self.agent_states[agent][s_instr] = {}
-            self.agent_states[agent][s_instr]['Position'] = 0.
-            # calculate the last position
-            f_pos = agent.position[s_instr]['qBid']
-            f_pos -= agent.position[s_instr]['qAsk']
-            if s_instr in agent.d_initial_pos:
-                f_pos += agent.d_initial_pos[s_instr]['Q']
-            # zero variable in env
-            for s_key in ['qBid', 'Bid', 'Ask', 'qAsk']:
-                self.agent_states[agent][s_instr][s_key] = 0.
-            # set up carry position to the next day, if it is the case
-            if self.primary_agent == agent:
-                if carry_pos and f_pos != 0:
-                    # set up d_pos variable properly
-                    if s_instr not in d_pos:
-                        d_pos[s_instr] = {}
-                    d_pos[s_instr]['Q'] = f_pos
-                    d_pos[s_instr]['P'] = f_price_adj
-        return d_pos
 
     def _reset_agent_state(self, agent):
         '''
@@ -159,34 +111,6 @@ class YieldCrvEnv(Env):
         '''
         state = self.agent_states[agent]
         f_pnl = 0.
-        l_pu = [None for x in self.l_instrument]
-        if b_isclose:
-            l_pu = self.l_pu[self.order_matching.idx]
-        l_du = self.l_du[self.order_matching.idx]
-        for s_instr, f_du, f_pu in zip(self.l_instrument, l_du, l_pu):
-            f_pu_bid = 0.
-            if state[s_instr]['qBid'] != 0:
-                f_pu_bid = state[s_instr]['Bid'] / state[s_instr]['qBid']
-                f_pu_bid = 10**5 * (1+f_pu_bid/100.)**(-f_du/252.)
-            f_pu_ask = 0.
-            if state[s_instr]['qAsk'] != 0:
-                f_pu_ask = state[s_instr]['Ask'] / state[s_instr]['qAsk']
-                f_pu_ask = 10**5 * (1+f_pu_ask/100.)**(-f_du/252.)
-            f_pnl += f_pu_bid * state[s_instr]['qBid']
-            f_pnl -= f_pu_ask * state[s_instr]['qAsk']
-            f_qty = state[s_instr]['qAsk'] + state[s_instr]['qBid']
-            f_pu_mid = 0
-            if f_pu:
-                f_pu_mid = f_pu
-            elif sense['midPrice'][s_instr] != 0:
-                f_pu_mid = sense['midPrice'][s_instr]
-                f_pu_mid = 10**5 * (1+f_pu_mid/100.)**(-f_du/252.)
-            f_pnl += -state[s_instr]['Position'] * f_pu_mid
-            # include costs
-            f_pnl -= (f_qty * 0.80)
-
-        # substitute the last pnl by the current value
-        state['Pnl'] = f_pnl
         return f_pnl
 
     def sense(self, agent):
@@ -245,9 +169,9 @@ class YieldCrvEnv(Env):
             # f_ratio = (book_aux.best_bid[1]*1./book_aux.best_ask[1])
             d_ratio[s_instr]['ASK'] = f_ratio
             # get size-transformed
-            f_size = book_aux.best_bid[1]*1./self.d_iqr[s_instr]
+            f_size = book_aux.best_bid[1]*1./1.
             d_size[s_instr]['BID'] = f_size
-            f_size = book_aux.best_ask[1]*1./self.d_iqr[s_instr]
+            f_size = book_aux.best_ask[1]*1./1.
             d_size[s_instr]['ASK'] = f_size
         # get agent best prices
         agent_orders = agent.d_order_tree[self.s_main_intrument]['ASK']
