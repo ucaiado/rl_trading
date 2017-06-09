@@ -1,6 +1,6 @@
 # Environment
 
-The final implementation of the environment, reward functions used in this dissertation. Modify it as you want. `Simulator.py` is what runs the simulation itself. The following are the `RewardFunc` methods you should know:
+This folder includes the final implementation of the environment and reward functions used in this dissertation. Modify it as you want. `registration.py` allow to instanciate different versions of the environment using a string identifier, so, just include new environments in the IMPLEMENTED_ENVS dictionary in this module. `Simulator.py` is what runs the simulation itself. The following are the `RewardFunc` methods you should know:
 
 - set\_func(self, s_type): Set the kind of reward used by the agent.
 - reset(self): Reset the reward function state. It was used by learning agent. Should be put in another place, probably
@@ -49,6 +49,7 @@ Regarding `Simulator`, one interesting method is `print_when_paused(self)`. If y
 
 Finally, the following are the `Environment` methods you should know:
 
-- reset(self): Reset the environment’s state. Prepare to start a new episode.
+- _reset_agent_state(self): Reset the agent’s state. Prepare to start a new episode.
+- _update_agent_pnl(self, agent, sense, b_isclose=False): Return the current PnL of the agent and also update the PnL information in `agents_state` attribute, from `Environment`. The flag `b_isclose` informs the environment if the market is closed and is mainly used when you are trading future contracts, which have settlement prices.
 - sense(self, agent): Return the environment state as a dictionary that the agent can access. An `agent` is an Agent object
 - log_trial(self): Log the final data of current trial as a JSON in a file that begins with “result” in its name
