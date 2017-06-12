@@ -354,6 +354,13 @@ class LineParser(object):
         d_rtn['order_date'] = l_data[11]
         # Order datetime entry (AAAA-MM-DD HH:MM:SS)
         d_rtn['order_datetime_entry'] = l_data[12]
+
+        # redefine priority time
+        # NOTE: in Bovespa, orders from prior days mess up the flow
+        if d_rtn['session_date'] != d_rtn['order_date']:
+            f_aux = int(8)*60*60.
+            d_rtn['priority_seconds'] = f_aux
+
         # Order status
         d_rtn['order_status'] = self.d_order_status[l_data[13]]
         # Aggressor Indicator
