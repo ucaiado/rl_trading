@@ -1,6 +1,6 @@
 # Environment
 
-This folder includes the final implementation of the environment and reward functions used in this dissertation. Modify it as you want. `registration.py` allow to instantiate different versions of the environment using a string identifier, so, just include new environments in the IMPLEMENTED_ENVS dictionary in this module. `Simulator.py` is what runs the simulation itself. The following code block illustrates the use of `make` function `Simulator` module to use Bovespa data.
+This folder includes the final implementation of the environment and reward functions used in this dissertation. Modify it as you want. The codes in `registration.py` allows to instantiate different versions of the environment using a string identifier, so, just include new environments in the IMPLEMENTED_ENVS dictionary in this module. `Simulator.py` is what runs the simulation itself. The following code block illustrates the use of `make` function and `Simulator` module to use Bovespa data.
 
 ```python
 import market_gym
@@ -33,7 +33,7 @@ sim = Simulator(e, update_delay=1.00, display=False)
 
 ```
 
-Regarding `Simulator`, one interesting method is `print_when_paused(self)`. If you hit Ctrl + C while running `market_sim/agent.py` the script, it will pause the simulation and print out some information about the current state of the environment and the agent. It will ask you if should continue or quit the episode. If you choose to quit, it will follow to the next episode. To stop the simulation, you should hit ctrl+C twice. About reward functions, the following are the `RewardFunc` methods you should know:
+Regarding `Simulator`, one interesting method is `print_when_paused(self)`. If you hit Ctrl + C while running `market_sim/agent.py` script, it will pause the simulation and print out some information about the current state of the environment and the agent. It will ask you if should continue or quit the episode. If you choose to quit, it will follow to the next episode. To stop the simulation, you should hit ctrl+C twice. About reward functions, the following are the `RewardFunc` methods you should know:
 
 - set\_func(self, s_type): Set the kind of reward used by the agent.
 - reset(self): Reset the reward function state. It was used by learning agent. Should be put in another place, probably
