@@ -132,13 +132,14 @@ class YieldCrvEnv(Env):
             for s_key in ['qBid', 'Bid', 'Ask', 'qAsk']:
                 self.agent_states[agent][s_instr][s_key] = 0.
             # set up carry position to the next day, if it is the case
-            if self.primary_agent == agent:
-                if carry_pos and f_pos != 0:
-                    # set up d_pos variable properly
-                    if s_instr not in d_pos:
-                        d_pos[s_instr] = {}
-                    d_pos[s_instr]['Q'] = f_pos
-                    d_pos[s_instr]['P'] = f_price_adj
+            if self.primary_agent:
+                if self.primary_agent == agent:
+                    if carry_pos and f_pos != 0:
+                        # set up d_pos variable properly
+                        if s_instr not in d_pos:
+                            d_pos[s_instr] = {}
+                        d_pos[s_instr]['Q'] = f_pos
+                        d_pos[s_instr]['P'] = f_price_adj
         return d_pos
 
     def _reset_agent_state(self, agent):
