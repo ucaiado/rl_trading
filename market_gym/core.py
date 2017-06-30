@@ -283,36 +283,24 @@ class Env(object):
         for msg in l_msg:
             agent_aux = self.agent_states[msg['agent_id']]['Agent']
             self.update_agent_state(agent=agent_aux, msg=msg)
-        # check if should update the primary
-        if self.primary_agent:
-            # ensure that the market is opened
-            b_are_there_orders = True
-            for my_book in self.order_matching.l_order_books:
-                if my_book.book_ask.price_tree.count == 0:
-                    b_are_there_orders = False
-                if my_book.book_bid.price_tree.count == 0:
-                    b_are_there_orders = False
-            if self.order_matching.last_date >= self.start_mkt_time:
-                if b_are_there_orders:
-                    # should_update is defined in the agent.py
-                    if self.primary_agent.should_update():
-                        self.update_agent_state(agent=self.primary_agent,
-                                                msg=None)
-
-        # check if should hedge
-        b_test = (self.NextStopTime.s_stoptime_was_set == '')
-        if self.primary_agent:
-            if self.primary_agent.need_to_hedge() and b_test:
-                l_hedge_msg = self.primary_agent.hedge_position()
-                for msg in l_hedge_msg:
-                    agent_aux = self.agent_states[msg['agent_id']]['Agent']
-                    self.update_agent_state(agent=agent_aux, msg=msg)
-
         # check if the market is closed
         b_t1 = self.order_matching.last_date >= self.close_mkt_time
         b_t2 = False
         if self.primary_agent:
             b_t2 = self.primary_agent.done
+            # check if should update the primary
+            if self.order_matching.last_date >= self.start_mkt_time:
+                # should_update is defined in the agent.py
+                if self.primary_agent.should_update():
+                    self.update_agent_state(agent=self.primary_agent,
+                                            msg=None)
+            # check if should hedge
+            if self.primary_agent.need_to_hedge() and b_test:
+                l_hedge_msg = self.primary_agent.hedge_position()
+                for msg in l_hedge_msg:
+                    agent_aux = self.agent_states[msg['agent_id']]['Agent']
+                    self.update_agent_state(agent=agent_aux, msg=msg)
+        # check if the market is closed
         if b_t1 or b_t2:
             self.done = True
             s_msg = 'Environment.step(): Market closed at {}!'
@@ -556,12 +544,15 @@ class Agent(object):
         self.env = env
         self.i_id = i_id
         self.state = None
+        self.done = False
+        self.b_print_always = False
         self.position = {}
         self.ofi_acc = {}
         self.d_order_tree = {}
         self.d_order_map = {}
         self.d_trades = {}
         self.d_initial_pos = {}
+        self.log_info = {'duration': 0., 'total_reward': 0.}
         self.learning = False  # Whether the agent is expected to learn
         for s_instr in self.env.l_instrument:
             self.position[s_instr] = {'qAsk': 0.,
@@ -613,10 +604,12 @@ class Agent(object):
         :param testing: boolean. If should freeze policy
         '''
         self.state = None
+        self.done = False
         self.position = {}
         self.d_order_tree = {}
         self.d_order_map = {}
         self.d_trades = {}
+        self.log_info = {'duration': 0., 'total_reward': 0.}
         for s_instr in self.env.l_instrument:
             self.position[s_instr] = {'qAsk': 0.,
                                       'Ask': 0.,
@@ -630,6 +623,20 @@ class Agent(object):
                                           'ASK': FastRBTree()}
             self.d_order_map[s_instr] = {}
             self.d_trades[s_instr] = {'BID': [], 'ASK': []}
+
+    def need_to_hedge(self):
+        '''
+        Return if the agent need to hedge position
+        '''
+        return False
+
+    def should_update(self):
+        '''
+        Return a boolean informing if it is time to update the agent
+        '''
+        if self.env.i_nrow < 5:
+            return False
+        return True
 
     def act(self, msg):
         '''
