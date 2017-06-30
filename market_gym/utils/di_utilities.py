@@ -112,6 +112,37 @@ def calulateDI1expirationDays(s_instrument, s_today=None, df_du=DF_DU,
     return i_du, ts_venc, ts_today
 
 
+def get_param_to_env(s_date, l_instrument):
+    '''
+    Return lists of days to maturity, settlement prices and interest rate
+    to be used in the YieldCurve environment
+
+    :poaram s_date: string. date in the format AAAAMMDD
+    :param l_instrument: list. name of the instrument desired
+    '''
+    # TODO: generalize to more than one date
+    s_date1 = '{}/{}/{}'.format(s_date[-2:], s_date[-4:-2], s_date[:4])
+    o_aux = Settlements()
+    func_du = calulateDI1expirationDays
+    l_du = []
+    l_pu = []
+    l_price_adj = []
+    for s_cmm in l_instrument:
+        f_du, dt1, dt2 = func_du(s_cmm, s_today=s_date1)
+        l_du.append(f_du)
+        df = o_aux.getData(s_cmm, s_date1, s_date1, b_notInclude=False)
+
+        l_pu.append(df['PU_Atual'].values[0])
+        f_pu_anterior = df['PU_Anterior'].values[0]
+        f_price = ((10.**5/f_pu_anterior)**(252./f_du)-1)*100
+        l_price_adj.append(f_price)
+    l_du = [l_du]
+    l_pu = [l_pu]
+    l_price_adj = [l_price_adj]
+
+    return l_du, l_pu, l_price_adj
+
+
 class Settlements(object):
     '''
     Represent the settlements of DI1 contracts recover from BVMF website
