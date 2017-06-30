@@ -283,12 +283,19 @@ class YieldCrvEnv(Env):
         '''
         Log the end of current trial
         '''
+        # log when the trial ended
+        if self.count_trials > 1:
+            i_aux = self.count_trials
+            s_msg = 'Environment.log_trial(): Trial Ended.'
+            s_msg += ' ID {}\n'.format(i_aux - 1)
+            # DEBUG
+            logging.info(s_msg)
         # log other informations
         if self.primary_agent:
             a = self.primary_agent
             d_info = self.primary_agent.log_info
             if 'pnl' not in d_info:
-                print '\n\nEnvironment.log_trial(): Error ===== HERE =====\n\n'
+                print 'Environment.log_trial(): No PnL to be logged'
                 return
             f_pnl = float('{:0.2f}'.format(d_info['pnl']))
             f_duration = float('{:0.2f}'.format(d_info['duration']))
@@ -401,10 +408,3 @@ class YieldCrvEnv(Env):
             self.d_trial_data['max_pnl'].append(f_max_pnl)
             self.d_trial_data['min_pnl'].append(f_min_pnl)
             self.d_trial_data['final_reward'].append(d_info['total_reward'])
-        # log when the trial ended
-        if self.count_trials > 1:
-            i_aux = self.count_trials
-            s_msg = 'Environment.log_trial(): Trial Ended.'
-            s_msg += ' ID {}\n'.format(i_aux - 1)
-            # DEBUG
-            logging.info(s_msg)
