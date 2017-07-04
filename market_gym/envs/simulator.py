@@ -68,7 +68,6 @@ def save_log_info(e, i_trial):
     pickle.dump(log_info, f)
     f.close()
 
-
 '''
 End help functions
 '''
@@ -95,7 +94,10 @@ class Simulator(object):
         self.last_updated = 0.0
         self.update_delay = update_delay
 
-        self.display = display
+        if display:
+            self.func_render = self._render_env
+        else:
+            self.func_render = self._render_not
 
     def run(self, n_trials=1, n_sessions=1, f_tolerance=0.05, b_testing=False):
         '''
@@ -105,6 +107,7 @@ class Simulator(object):
         :param n_trials*: integer. Iterations over the same files
         :param f_tolerance*: float. Minimum epsilon necessary to begin testing
         :param b_testing*: boolean. should use the value function already fit
+        :param b_render*: boolean. If should render the environment
         '''
         if self.env.primary_agent:
             if not b_testing and self.env.primary_agent.learning:
@@ -122,24 +125,27 @@ class Simulator(object):
                         s_err = 'Simulator.run(): Starting test session !'
                         root.info(s_err)
             for i_sess in xrange(n_sessions):
-                # NOTE: Currently, the library does not use n_sesions
                 self.quit = False
                 self.env.reset(testing=b_testing, carry_pos=i_sess > 0)
+                self.env.step()  # give the first step
+                # set variable to control rendering
                 self.current_time = 0.0
                 self.last_updated = 0.0
+                self.start_time = 0.
                 self.start_time = time.time()
                 # iterate over the current dataset
                 while True:
                     try:
                         # Update current time
-                        self.current_time = time.time() - self.start_time
+                        # self.current_time = time.time() - self.start_time
+                        self.current_time = self.env.order_matching.f_time
                         # Update environment
                         f_time_step = self.current_time - self.last_updated
-                        l_msg = self.env.step()
+                        self.env.step()
                         # print information to be used by a visualization
                         if f_time_step >= self.update_delay:
                             # TODO: Print out the scenario to be visualized
-                            pass
+                            self.func_render()
                             self.last_updated = self.current_time
                     except StopIteration:
                         self.quit = True
@@ -215,3 +221,15 @@ class Simulator(object):
                 print '\n{} book:'.format(s_instr)
                 print self.env.get_order_book(s_instr, b_rtn_dataframe=True)
             print '\n'
+
+    def _render_env(self):
+        '''
+        Call the render method from environment
+        '''
+        self.env.render()
+
+    def _render_not(self):
+        '''
+        Do nothing
+        '''
+        pass

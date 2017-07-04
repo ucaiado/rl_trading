@@ -235,7 +235,8 @@ class Run(object):
         #    env            - Environment Object. The environment simulated
         #    * update_delay - Float. Seconds elapsed to print out the book
         #    * display      - Boolean. If should open a visualizer
-        sim = Simulator(e, update_delay=1.00, display=False)
+        # sim = Simulator(e, update_delay=1.00, display=False)
+        sim = Simulator(e, update_delay=1.00, display=True)
 
         #######################
         # Run the simulator

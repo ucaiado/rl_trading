@@ -16,10 +16,12 @@ from collections import OrderedDict
 import datetime
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 from bintrees import FastRBTree
 
 from market_gym.lob.matching_engine import BvmfFileMatching
+from market_gym.utils.book_rendering import img_init, img_update
 import logging
 from config import DEBUG, root, s_log_file
 from config import START_MKT_TIME, CLOSE_MKT_TIME
@@ -120,6 +122,9 @@ class Env(object):
         # include 5 minutes as random time to start trading
         self.start_mkt_time = START_MKT_TIME + np.random.rand() * 5 * 60.
         self.close_mkt_time = CLOSE_MKT_TIME
+        # control img rendering
+        self.fig_book = None
+        self.d_img_book = None
 
     def set_reward_function(self, s_type):
         '''
@@ -295,6 +300,7 @@ class Env(object):
                     self.update_agent_state(agent=self.primary_agent,
                                             msg=None)
             # check if should hedge
+            b_test = (self.NextStopTime.s_stoptime_was_set == '')
             if self.primary_agent.need_to_hedge() and b_test:
                 l_hedge_msg = self.primary_agent.hedge_position()
                 for msg in l_hedge_msg:
@@ -439,6 +445,20 @@ class Env(object):
         # log other informations
         if self.primary_agent:
             pass
+
+    def render(self, mode='book'):
+        '''
+        Render one environment timestep
+
+        :param mode: string. not using it yet
+        '''
+        try:
+            img_update(self.d_img_book, self, self.primary_agent)
+            plt.pause(0.001)
+        except TypeError:
+            self.fig_book = plt.figure(figsize=(8, 4))
+            self.d_img_book = img_init(self.fig_book, self)
+            plt.ion()
 
 
 class RewardWrapper(object):
