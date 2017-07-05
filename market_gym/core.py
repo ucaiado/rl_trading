@@ -454,7 +454,7 @@ class Env(object):
         '''
         try:
             img_update(self.d_img_book, self, self.primary_agent)
-            plt.pause(0.001)
+            plt.pause(0.01)
         except TypeError:
             self.fig_book = plt.figure(figsize=(8, 4))
             self.d_img_book = img_init(self.fig_book, self)

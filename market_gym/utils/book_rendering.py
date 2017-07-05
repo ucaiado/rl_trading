@@ -110,7 +110,8 @@ def img_init(fig, e):
             d_obj[s_cmm]['qAsk'][i] = ax.text(0.85, 0.80 - i * 0.22, s_txt,
                                               **text_style)
 
-    fig.tight_layout()
+    # fig.tight_layout()
+    fig.set_tight_layout(True)
     fig.subplots_adjust(bottom=0.01)
     return d_obj
 
