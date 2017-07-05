@@ -214,6 +214,9 @@ class Run(object):
         if self.s_date:
             i_month = int(self.s_date[:6])
 
+        # check if should render the LOBs
+        b_render = self._get_from_argv('b_render')
+
         # set up the environment and agent to run the simulation
         s_main_instr = self._get_from_argv('s_main_instr')
         if not s_main_instr:
@@ -235,8 +238,10 @@ class Run(object):
         #    env            - Environment Object. The environment simulated
         #    * update_delay - Float. Seconds elapsed to print out the book
         #    * display      - Boolean. If should open a visualizer
-        # sim = Simulator(e, update_delay=1.00, display=False)
-        sim = Simulator(e, update_delay=1.00, display=True)
+        if b_render:
+            sim = Simulator(e, update_delay=1.00, display=True)
+        else:
+            sim = Simulator(e, update_delay=1.00, display=False)
 
         #######################
         # Run the simulator
@@ -649,6 +654,9 @@ if __name__ == '__main__':
     s_help = 'month of the data to use when iterating on multiple trials'
     parser.add_argument('-m', '--month', default=None, type=int, metavar='',
                         help=s_help)
+    s_help = 'pop up a window to render the limit order books being simulated'
+    parser.add_argument('-viz', '--visualization', action='store_true',
+                        help=s_help)
     # recover arguments
     args = parser.parse_args()
     b_use_valfunc = args.valfunc
@@ -659,6 +667,7 @@ if __name__ == '__main__':
     i_version = args.version
     s_main_instr = args.instr
     i_month = args.month
+    b_render = args.visualization
 
     # check the instruments to use
     if s_main_instr:
@@ -693,4 +702,4 @@ if __name__ == '__main__':
                    i_version=i_version, b_kplrn=b_kplrn, s_valfunc=s_valfunc,
                    b_keep_pos=False, s_main_instr=s_main_instr, f_gain=f_gain,
                    f_loss=f_loss, l_instruments=l_opt, s_hedging_on=s_hedge,
-                   i_month=i_month)
+                   i_month=i_month, b_render=b_render)
