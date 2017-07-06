@@ -120,13 +120,23 @@ def img_update(d_obj, e, a):
     '''
     '''
     s_main_intr = e.s_main_intrument
-    f_pnl = e.agent_states[a]['Pnl']
-    f_pos = e.agent_states[a][s_main_intr]['Position']
-    f_tot = e.agent_states[a][s_main_intr]['qAsk']
-    f_tot += e.agent_states[a][s_main_intr]['qBid']
-    f_delta = a.f_delta_pnl
-    l_agent_prices = [x for x in a.d_order_tree[s_main_intr]['ASK'].keys()]
-    l_agent_prices += [x for x in a.d_order_tree[s_main_intr]['BID'].keys()]
+    try:
+        f_pnl = e.agent_states[a]['Pnl']
+        f_pos = e.agent_states[a][s_main_intr]['Position']
+        f_tot = e.agent_states[a][s_main_intr]['qAsk']
+        f_tot += e.agent_states[a][s_main_intr]['qBid']
+        f_delta = a.f_delta_pnl
+        l_agent_prices = [x for x in
+                          a.d_order_tree[s_main_intr]['ASK'].keys()]
+        l_agent_prices += [x for x in
+                           a.d_order_tree[s_main_intr]['BID'].keys()]
+    except (KeyError, AttributeError) as e:
+        f_pnl = 0.
+        f_pos = 0.
+        f_tot = 0.
+        f_tot += 0.
+        f_delta = 0.
+        l_agent_prices = []
     d_obj['time']['txt'].set_text(e.order_matching.s_time)
     d_obj['summary']['pnl'].set_text('PnL: R$ {:.01f}'.format(f_pnl))
     d_obj['summary']['pos'].set_text('Pos on main: {:.0f}'.format(f_pos))
