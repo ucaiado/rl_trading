@@ -4,7 +4,7 @@ Building Trading Models Using Reinforcement Learning
 
 **This repository contains the framework built** to my dissertation of the quantitative finance mastership program, from [FGV](http://portal.fgv.br/en/news/fgv-among-worlds-10-best-think-tanks) University. I proposed the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data.
 
-<p style="text-align:center;display:block;"><img src="book_sim.gif" alt="Example simulator" width="58%" style="middle"></p>
+<img src="book_sim.gif" alt="Example simulator" width="58%">
 
 No assumption about market dynamics was made, but it has required the creation of this simulator wherewith the learning agent could interact to gain experience. You can check my master thesis <a href="" target="_blank">here </a> and the presentation <a href="https://ucaiado.github.io/AdaptativeTrading_Model/" target="_blank">here </a>. The code structure is heavily inspired by Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project and in OpenAi's [Gym](https://github.com/openai/gym).
 
