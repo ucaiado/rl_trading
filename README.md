@@ -42,5 +42,3 @@ An example of the datasets used in this project can be found [here](https://www.
 
 ### License
 The contents of this repository are covered under the [Apache 2.0 License](LICENSE.md).
-### License
-The contents of this repository are covered under the [Apache 2.0 License](LICENSE.md).
