@@ -2,7 +2,11 @@ Building Trading Models Using Reinforcement Learning
 ==================
 
 
-**This repository contains the framework built** to my dissertation of the quantitative finance mastership program, from [FGV](http://portal.fgv.br/en/news/fgv-among-worlds-10-best-think-tanks) University. I proposed the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data. No assumption about market dynamics was made, but it has required the creation of this simulator wherewith the learning agent could interact to gain experience. You can check my master thesis <a href="" target="_blank">here </a> and the presentation <a href="" target="_blank">here </a>. The code structure is heavily inspired by Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project and in OpenAi's [Gym](https://github.com/openai/gym).
+**This repository contains the framework built** to my dissertation of the quantitative finance mastership program, from [FGV](http://portal.fgv.br/en/news/fgv-among-worlds-10-best-think-tanks) University. I proposed the use of a learning algorithm and tile coding to develop an interest rate trading strategy directly from historical high-frequency order book data.
+
+![Example simulator](book_sim.gif)
+
+No assumption about market dynamics was made, but it has required the creation of this simulator wherewith the learning agent could interact to gain experience. You can check my master thesis <a href="" target="_blank">here </a> and the presentation <a href="" target="_blank">here </a>. The code structure is heavily inspired by Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project and in OpenAi's [Gym](https://github.com/openai/gym).
 
 
 ### Install
@@ -36,6 +40,7 @@ An example of the datasets used in this project can be found [here](https://www.
 3. BUSONIU, L. et al. *Reinforcement learning and dynamic programming using function approximators*. CRC press, 2010.
 4. SUTTON, R. S.; BARTO, A. G. *Reinforcement Learning: An Introduction*, draft, in progress. 2st. MIT Press, 2017.
 
-
+### License
+The contents of this repository are covered under the [Apache 2.0 License](LICENSE.md).
 ### License
 The contents of this repository are covered under the [Apache 2.0 License](LICENSE.md).
