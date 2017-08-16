@@ -91,5 +91,5 @@ Currently, if you inherited just the `Agent` class from `core.py` may not be eno
 
 ## What you should know about `_agent/risk_model.py`
 
-bla
+...
 
