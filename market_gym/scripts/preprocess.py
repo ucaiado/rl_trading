@@ -177,28 +177,6 @@ def cleaning_files(s_date, l_instruments, s_type='old', last_check=True):
 
         print
 
-    # i_test = 0
-    # i_total = 0
-    # f_start_time = time.time()
-    # for s_name, book_obj in zip(l_instruments, l_order_books):
-    #     for s_side, d_invalid, d_warning in zip(['ASK', 'BID'],
-    #                                             [book_obj.d_wrongask,
-    #                                             book_obj.d_wrongbid],
-    #                                             [book_obj.d_warningask,
-    #                                             book_obj.d_warningbid]):
-    #         myParser = parser_data.LineParser(s_side)
-    #         s_aux = 'data/temp/{}/{}_{}_{}.zip'
-    #         s_fname = s_last_fname.format(s_date, s_side, s_name)
-    #         with zipfile.ZipFile(s_fname, 'r') as archive:
-    #             fr = archive.open(archive.infolist()[0])
-    #             for idx, row in enumerate(fr):
-    #                 i_total += 1
-    #                 # parse the line
-    #                 d_aux = myParser(row)
-    #                 if idx > 3:
-    #                     if d_aux['seq_order_number'] in d_invalid.keys():
-    #                         i_test += 1
-
     # read the books processed
     i_test = 0
     i_total = 0
@@ -327,38 +305,23 @@ def cleaning_files(s_date, l_instruments, s_type='old', last_check=True):
     else:
         print d_scenario[s_key][np.random.choice(l_hours)]
 
-# if __name__ == '__main__':
-#     # treat bad specification command
-#     # try:
-#     s_type = 'old'
-#     if len(sys.argv) > 2:
-#         s_type = sys.argv[2]
-#     if s_type == 'old':
-#         process_files(sys.argv[1], ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19',
-#                                     'DI1F20', 'DI1N20', 'DI1F21', 'DI1F23',
-#                                     'DI1F25'])
-#     else:
-#         cleaning_files(sys.argv[1],  ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19',
-#                                       'DI1F20', 'DI1N20', 'DI1F21', 'DI1F23',
-#                                       'DI1F25'], s_type=s_type)
-
-
 if __name__ == '__main__':
     s_txt = '''\
             File Preprocessing
             --------------------------------
-            Clean files from FTP
+            Clean files from FTP. The original files should be put in the
+            "data/original/" folder, located in the top-level project directory
             '''
     obj_formatter = argparse.RawDescriptionHelpFormatter
     parser = argparse.ArgumentParser(formatter_class=obj_formatter,
                                      description=textwrap.dedent(s_txt))
     parser.add_argument('date', default=None, type=str, metavar='',
                         help='date of the file to be used (formart AAAAMMDD)')
-    s_help = 'If it is a additional cleaning of the file'
+    s_help = 'If it is a additional cleaning run of the initial file'
     parser.add_argument('-sr', '--secrun', action='store_false',
                         help=s_help)
     s_help = 'type of the file to be processed. Just used if it is the first'
-    s_help += ' run'
+    s_help += ' run. It can be "BMF", "VISTA" or "OPCOES".'
     parser.add_argument('-ft', '--filetype', default=None, type=str,
                         help=s_help)
     # s_help = 'If should not check for crossing prices'
@@ -373,7 +336,7 @@ if __name__ == '__main__':
         s_ftype = 'BMF'
     if s_ftype == 'BMF':
         l_instruments = ['DI1F18', 'DI1N18', 'DI1F19', 'DI1N19', 'DI1F20',
-                         'DI1N20', 'DI1F21', 'DI1F23', 'DI1F25']
+                         'DI1N20', 'DI1F21', 'DI1F23', 'DI1F25', 'DI1F27']
     elif s_ftype == 'VISTA':
         l_instruments = ['PETR4', 'VALE5']
     elif s_ftype == 'OPCOES':

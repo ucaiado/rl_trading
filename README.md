@@ -6,7 +6,7 @@ This repository contains **the framework built to my dissertation** of the quant
 
 <p align="center"><img src="book_sim.gif" alt="Example simulator" width="58%" style="middle"></p>
 
-No assumption about market dynamics was made, but it has required the creation of this simulator wherewith the learning agent could interact to gain experience. You can check my master thesis <a href="" target="_blank">here </a> and the presentation <a href="https://ucaiado.github.io/AdaptativeTrading_Model/" target="_blank">here</a>. Both are in Portuguese. The code structure is heavily inspired by Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project and in OpenAi's [Gym](https://github.com/openai/gym).
+No assumption about market dynamics was made, but it has required the creation of this simulator wherewith the learning agent could interact to gain experience. You can check my master thesis <a href="http://hdl.handle.net/10438/18707" target="_blank">here </a> and the presentation <a href="https://ucaiado.github.io/AdaptativeTrading_Model/" target="_blank">here</a>. Both are in Portuguese. The code structure is heavily inspired by Udacity's [smartcab](https://github.com/udacity/machine-learning/tree/master/projects/smartcab) project and in OpenAi's [Gym](https://github.com/openai/gym).
 
 
 ### Install
